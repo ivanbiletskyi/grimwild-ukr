@@ -1,0 +1,11 @@
+- edit AI translations for next character paths:
+    - fighter
+    - druid
+    - cleric
+    - monk
+    - paladin
+    - ranger
+    - rogue
+    - sorcerer
+    - wizard
+    - warlock
