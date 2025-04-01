@@ -7,5 +7,4 @@
     - ranger
     - rogue
     - sorcerer
-    - wizard
     - warlock
