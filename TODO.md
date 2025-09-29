@@ -1,5 +1,4 @@
 - edit AI translations for next character paths:
-    - druid
     - cleric
     - monk
     - paladin
