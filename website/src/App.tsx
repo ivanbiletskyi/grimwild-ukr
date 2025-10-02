@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import Navigation from './components/Navigation';
 import MarkdownRenderer from './components/MarkdownRenderer';
+import Search from './components/Search';
 import './App.css'
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
         <main className="main-content">
           <Routes>
             <Route path="/" element={<HomePage />} />
+            <Route path="/search" element={<Search />} />
             <Route path="/player" element={<PlayerSection />} />
             <Route path="/player/core-mechanic" element={
               <MarkdownRenderer markdownPath="player/1_core_mechanic.md" title="Базова механіка" />
