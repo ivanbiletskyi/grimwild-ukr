@@ -70,6 +70,7 @@
   border-radius: 6px;
   transition: all 0.3s ease;
   font-weight: 500;
+  background-color: transparent;
 }
 
 .nav-link:hover,
@@ -79,36 +80,15 @@
   transform: translateY(-1px);
 }
 
+/* Light theme specific nav-link styling */
+:root[data-theme='light'] .nav-link:hover,
+:root[data-theme='light'] .nav-link.active {
+  background-color: var(--highlight);
+  color: #ffffff;
+}
+
 .nav-icon {
   font-size: 1.2em;
-}
-
-/* Theme Toggle Button */
-.theme-toggle {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 0.5rem;
-  background: transparent;
-  border: 2px solid transparent;
-  border-radius: 50%;
-  cursor: pointer;
-  transition: all 0.3s ease;
-  width: 44px;
-  height: 44px;
-}
-
-.theme-toggle:hover {
-  background-color: var(--highlight);
-  border-color: var(--highlight);
-  transform: translateY(-1px) rotate(15deg);
-}
-
-.theme-icon {
-  font-size: 1.5em;
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
 /* Main Content */
@@ -191,9 +171,20 @@
   transition: all 0.3s ease;
 }
 
+/* Light theme specific section-link styling */
+:root[data-theme='light'] .section-link {
+  background-color: var(--highlight);
+  color: #ffffff;
+}
+
 .section-card-link:hover .section-link {
   background-color: var(--highlight-hover);
   transform: translateY(-2px);
+}
+
+:root[data-theme='light'] .section-card-link:hover .section-link {
+  background-color: var(--highlight-hover);
+  color: #ffffff;
 }
 
 /* Section Overviews */

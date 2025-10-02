@@ -7,6 +7,7 @@ const Navigation = () => {
 
   const navItems = [
     { path: '/', label: 'Головна', icon: '🏠' },
+    { path: '/search', label: 'Пошук', icon: '🔍' },
     { path: '/player', label: 'Гравець', icon: '🎲' },
     { path: '/gm', label: 'Майстер', icon: '🎭' },
     { path: '/glossary', label: 'Глосарій', icon: '📚' },
