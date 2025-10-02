@@ -61,34 +61,39 @@ function copyDirRecursive(src, dest) {
 // Run the copy function
 copyMarkdownFiles();
 
-// Watch for changes in markdown files (but exclude the website directory)
-const sourceDir = path.join(__dirname, '..');
-let isProcessing = false;
+// Check if --watch flag is passed
+const shouldWatch = process.argv.includes('--watch');
 
-const watcher = fs.watch(sourceDir, { recursive: true }, (eventType, filename) => {
-  // Ignore if already processing or if file is in website directory
-  if (isProcessing || !filename || filename.startsWith('website')) {
-    return;
-  }
+if (shouldWatch) {
+  // Watch for changes in markdown files (but exclude the website directory)
+  const sourceDir = path.join(__dirname, '..');
+  let isProcessing = false;
 
-  // Only process .md and image files
-  if (filename.endsWith('.md') || filename.endsWith('.png') || filename.endsWith('.jpg') || filename.endsWith('.jpeg') || filename.endsWith('.gif') || filename.endsWith('.svg')) {
-    console.log(`File changed: ${filename}`);
-    isProcessing = true;
-    
-    // Debounce: wait a bit before copying to avoid multiple rapid triggers
-    setTimeout(() => {
-      copyMarkdownFiles();
-      isProcessing = false;
-    }, 100);
-  }
-});
+  const watcher = fs.watch(sourceDir, { recursive: true }, (eventType, filename) => {
+    // Ignore if already processing or if file is in website directory
+    if (isProcessing || !filename || filename.startsWith('website')) {
+      return;
+    }
 
-console.log('Watching for markdown file changes...');
+    // Only process .md and image files
+    if (filename.endsWith('.md') || filename.endsWith('.png') || filename.endsWith('.jpg') || filename.endsWith('.jpeg') || filename.endsWith('.gif') || filename.endsWith('.svg')) {
+      console.log(`File changed: ${filename}`);
+      isProcessing = true;
+      
+      // Debounce: wait a bit before copying to avoid multiple rapid triggers
+      setTimeout(() => {
+        copyMarkdownFiles();
+        isProcessing = false;
+      }, 100);
+    }
+  });
 
-// Keep the script running
-process.on('SIGINT', () => {
-  console.log('Stopping markdown file watcher...');
-  watcher.close();
-  process.exit(0);
-});
+  console.log('Watching for markdown file changes...');
+
+  // Keep the script running
+  process.on('SIGINT', () => {
+    console.log('Stopping markdown file watcher...');
+    watcher.close();
+    process.exit(0);
+  });
+}
