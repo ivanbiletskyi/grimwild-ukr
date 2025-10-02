@@ -243,9 +243,9 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ markdownPath, title
             </pre>
           ),
           img: ({ src, alt }) => (
-            <img 
-              src={src} 
-              alt={alt} 
+            <img
+              src={src}
+              alt={alt}
               style={{
                 maxWidth: '100%',
                 height: 'auto',
@@ -254,6 +254,24 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ markdownPath, title
                 display: 'block'
               }}
             />
+          ),
+          table: ({ children }) => (
+            <div style={{
+              overflowX: 'auto',
+              margin: '1rem 0',
+              borderRadius: '8px',
+              backgroundColor: 'var(--secondary-bg)',
+              WebkitOverflowScrolling: 'touch' // Smooth scrolling on iOS
+            }}>
+              <table style={{
+                minWidth: '100%',
+                borderCollapse: 'collapse',
+                margin: 0,
+                backgroundColor: 'transparent'
+              }}>
+                {children}
+              </table>
+            </div>
           ),
         }}
       >
