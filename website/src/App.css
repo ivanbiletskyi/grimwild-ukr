@@ -83,6 +83,34 @@
   font-size: 1.2em;
 }
 
+/* Theme Toggle Button */
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.5rem;
+  background: transparent;
+  border: 2px solid transparent;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 44px;
+  height: 44px;
+}
+
+.theme-toggle:hover {
+  background-color: var(--highlight);
+  border-color: var(--highlight);
+  transform: translateY(-1px) rotate(15deg);
+}
+
+.theme-icon {
+  font-size: 1.5em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 /* Main Content */
 .main-content {
   flex: 1;
