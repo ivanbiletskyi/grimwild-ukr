@@ -14,7 +14,7 @@ export const loadMarkdownContent = async (path: string): Promise<string> => {
     // Replace relative image paths with absolute paths
     content = content.replace(
       /!\[([^\]]*)\]\((?!http|\/)(.*?)\)/g,
-      (match, altText, imagePath) => {
+      (_match, altText, imagePath) => {
         // Construct absolute path from root
         const absolutePath = `/${dirPath}/${imagePath}`;
         return `![${altText}](${absolutePath})`;
