@@ -1,5 +1,5 @@
 :root {
-  /* RPG Fantasy Theme Colors */
+  /* Dark Theme - RPG Fantasy Colors */
   --primary-bg: #1a1a1a;
   --secondary-bg: #2a2a2a;
   --accent-bg: #3a3a3a;
@@ -24,6 +24,22 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+/* Light Theme */
+:root[data-theme='light'] {
+  --primary-bg: #f5f0e8;
+  --secondary-bg: #ffffff;
+  --accent-bg: #e8dfd0;
+  --text-primary: #2a2520;
+  --text-secondary: #4a453f;
+  --text-muted: #8a857f;
+  --border-color: #d0c5b0;
+  --highlight: #8b5a3c;
+  --highlight-hover: #a66b4a;
+  --success: #4a7c59;
+  --warning: #c4a44d;
+  --danger: #8b3a3a;
 }
 
 * {
