@@ -1,7 +1,14 @@
+// Get the base path for the application
+const getBasePath = () => {
+  // In production, use /grimwild-ukr/, in development use /
+  return import.meta.env.PROD ? '/grimwild-ukr' : '';
+};
+
 // Load markdown files using fetch (much simpler and more reliable)
 export const loadMarkdownContent = async (path: string): Promise<string> => {
   try {
-    const response = await fetch(`/${path}`);
+    const basePath = getBasePath();
+    const response = await fetch(`${basePath}/${path}`);
     if (!response.ok) {
       throw new Error(`Failed to fetch ${path}: ${response.status}`);
     }
@@ -15,8 +22,8 @@ export const loadMarkdownContent = async (path: string): Promise<string> => {
     content = content.replace(
       /!\[([^\]]*)\]\((?!http|\/)(.*?)\)/g,
       (_match, altText, imagePath) => {
-        // Construct absolute path from root
-        const absolutePath = `/${dirPath}/${imagePath}`;
+        // Construct absolute path from root including base path
+        const absolutePath = `${basePath}/${dirPath}/${imagePath}`;
         return `![${altText}](${absolutePath})`;
       }
     );
