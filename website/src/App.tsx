@@ -1,11 +1,14 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import Navigation from './components/Navigation';
 import MarkdownRenderer from './components/MarkdownRenderer';
 import './App.css'
 
 function App() {
+  // Use /grimwild-ukr/ for production (GitHub Pages), / for local development
+  const basename = import.meta.env.PROD ? '/grimwild-ukr' : '/';
+  
   return (
-    <Router>
+    <Router basename={basename}>
       <div className="app">
         <Navigation />
         <main className="main-content">
@@ -84,27 +87,27 @@ const HomePage = () => (
     <h1>Ласкаво просимо до Grimwild</h1>
     <p>Українська фан-адаптація та переклад tabletop RPG системи Grimwild.</p>
     <div className="home-sections">
-      <a href="/player" className="section-card-link">
+      <Link to="/player" className="section-card-link">
         <div className="section-card">
           <h2>🎲 Гравець</h2>
           <p>Правила гри, створення персонажа, класи та шляхи.</p>
           <span className="section-link">Переглянути</span>
         </div>
-      </a>
-      <a href="/gm" className="section-card-link">
+      </Link>
+      <Link to="/gm" className="section-card-link">
         <div className="section-card">
           <h2>🎭 Майстер</h2>
           <p>Інструменти для ведення ігор, монстри, історії.</p>
           <span className="section-link">Переглянути</span>
         </div>
-      </a>
-      <a href="/glossary" className="section-card-link">
+      </Link>
+      <Link to="/glossary" className="section-card-link">
         <div className="section-card">
           <h2>📚 Глосарій</h2>
           <p>Терміни та визначення гри.</p>
           <span className="section-link">Переглянути</span>
         </div>
-      </a>
+      </Link>
     </div>
   </div>
 );
@@ -113,13 +116,13 @@ const PlayerSection = () => (
   <div className="section-overview">
     <h1>Секція гравця</h1>
     <div className="section-links">
-      <a href="/player/core-mechanic">Базова механіка</a>
-      <a href="/player/terms">Терміни</a>
-      <a href="/player/additions">Доповнення</a>
-      <a href="/player/character">Персонаж</a>
-      <a href="/player/character-creation">Створення персонажа</a>
-      <a href="/player/exploration">Дослідження</a>
-      <a href="/player/paths">Шляхи</a>
+      <Link to="/player/core-mechanic">Базова механіка</Link>
+      <Link to="/player/terms">Терміни</Link>
+      <Link to="/player/additions">Доповнення</Link>
+      <Link to="/player/character">Персонаж</Link>
+      <Link to="/player/character-creation">Створення персонажа</Link>
+      <Link to="/player/exploration">Дослідження</Link>
+      <Link to="/player/paths">Шляхи</Link>
     </div>
   </div>
 );
@@ -169,13 +172,13 @@ const PlayerPaths = () => {
       <p className="section-description">Оберіть шлях, щоб переглянути деталі</p>
       <div className="paths-grid">
         {paths.map(({ name, path, emoji }) => (
-          <a key={path} href={`/player/paths/${path}`} className="path-card-link">
+          <Link key={path} to={`/player/paths/${path}`} className="path-card-link">
             <div className="path-card-preview">
               <span className="path-emoji">{emoji}</span>
               <h3>{name}</h3>
               <span className="path-arrow">→</span>
             </div>
-          </a>
+          </Link>
         ))}
       </div>
     </div>
@@ -186,7 +189,7 @@ const GMSection = () => (
   <div className="section-overview">
     <h1>Секція майстра</h1>
     <div className="section-links">
-      <a href="/gm/cheatsheet">Шпаргалка майстра</a>
+      <Link to="/gm/cheatsheet">Шпаргалка майстра</Link>
     </div>
   </div>
 );
