@@ -52,7 +52,7 @@ function copyDirRecursive(src, dest) {
 
     if (entry.isDirectory()) {
       copyDirRecursive(srcPath, destPath);
-    } else if (entry.isFile() && entry.name.endsWith('.md')) {
+    } else if (entry.isFile() && (entry.name.endsWith('.md') || entry.name.endsWith('.png') || entry.name.endsWith('.jpg') || entry.name.endsWith('.jpeg') || entry.name.endsWith('.gif') || entry.name.endsWith('.svg'))) {
       fs.copyFileSync(srcPath, destPath);
     }
   }
@@ -71,9 +71,9 @@ const watcher = fs.watch(sourceDir, { recursive: true }, (eventType, filename) =
     return;
   }
 
-  // Only process .md files
-  if (filename.endsWith('.md')) {
-    console.log(`Markdown file changed: ${filename}`);
+  // Only process .md and image files
+  if (filename.endsWith('.md') || filename.endsWith('.png') || filename.endsWith('.jpg') || filename.endsWith('.jpeg') || filename.endsWith('.gif') || filename.endsWith('.svg')) {
+    console.log(`File changed: ${filename}`);
     isProcessing = true;
     
     // Debounce: wait a bit before copying to avoid multiple rapid triggers

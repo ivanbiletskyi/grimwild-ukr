@@ -25,6 +25,7 @@ function App() {
               <MarkdownRenderer markdownPath="player/4_character.md" title="Персонаж" />
             } />
             <Route path="/player/character-creation" element={<CharacterCreation />} />
+            <Route path="/player/exploration" element={<ExplorationSection />} />
             <Route path="/player/paths" element={<PlayerPaths />} />
             
             {/* Individual character path routes */}
@@ -83,21 +84,27 @@ const HomePage = () => (
     <h1>Ласкаво просимо до Grimwild</h1>
     <p>Українська фан-адаптація та переклад tabletop RPG системи Grimwild.</p>
     <div className="home-sections">
-      <div className="section-card">
-        <h2>🎲 Гравець</h2>
-        <p>Правила гри, створення персонажа, класи та шляхи.</p>
-        <a href="/player" className="section-link">Переглянути</a>
-      </div>
-      <div className="section-card">
-        <h2>🎭 Майстер</h2>
-        <p>Інструменти для ведення ігор, монстри, історії.</p>
-        <a href="/gm" className="section-link">Переглянути</a>
-      </div>
-      <div className="section-card">
-        <h2>📚 Глосарій</h2>
-        <p>Терміни та визначення гри.</p>
-        <a href="/glossary" className="section-link">Переглянути</a>
-      </div>
+      <a href="/player" className="section-card-link">
+        <div className="section-card">
+          <h2>🎲 Гравець</h2>
+          <p>Правила гри, створення персонажа, класи та шляхи.</p>
+          <span className="section-link">Переглянути</span>
+        </div>
+      </a>
+      <a href="/gm" className="section-card-link">
+        <div className="section-card">
+          <h2>🎭 Майстер</h2>
+          <p>Інструменти для ведення ігор, монстри, історії.</p>
+          <span className="section-link">Переглянути</span>
+        </div>
+      </a>
+      <a href="/glossary" className="section-card-link">
+        <div className="section-card">
+          <h2>📚 Глосарій</h2>
+          <p>Терміни та визначення гри.</p>
+          <span className="section-link">Переглянути</span>
+        </div>
+      </a>
     </div>
   </div>
 );
@@ -111,6 +118,7 @@ const PlayerSection = () => (
       <a href="/player/additions">Доповнення</a>
       <a href="/player/character">Персонаж</a>
       <a href="/player/character-creation">Створення персонажа</a>
+      <a href="/player/exploration">Дослідження</a>
       <a href="/player/paths">Шляхи</a>
     </div>
   </div>
@@ -123,6 +131,18 @@ const CharacterCreation = () => (
       <MarkdownRenderer markdownPath="player/character_creation/1_character_creation.md" title="Основи створення" />
       <MarkdownRenderer markdownPath="player/character_creation/2_backgrounds.md" title="Передісторії" />
       <MarkdownRenderer markdownPath="player/character_creation/3_heritages.md" title="Спадщини" />
+    </div>
+  </div>
+);
+
+const ExplorationSection = () => (
+  <div className="sub-section">
+    <h1>🌌 Дослідження</h1>
+    <p className="section-description">Система дослідження Grimwild - пригода у невідоме</p>
+    <div className="sub-links">
+      <MarkdownRenderer markdownPath="player/exploration/1_grimwild.md" title="Що таке Grimwild?" />
+      <MarkdownRenderer markdownPath="player/exploration/2_exploration-system.md" title="Система дослідження" />
+      <MarkdownRenderer markdownPath="player/exploration/3_region-maps.md" title="Мапи регіонів" />
     </div>
   </div>
 );
