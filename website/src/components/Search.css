@@ -45,7 +45,7 @@
 .search-input:focus {
   outline: none;
   border-color: var(--highlight);
-  box-shadow: 0 0 0 3px rgba(139, 90, 60, 0.1);
+  box-shadow: 0 0 0 3px rgba(210, 105, 30, 0.15);
 }
 
 .search-input::placeholder {
