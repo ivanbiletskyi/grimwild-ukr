@@ -120,6 +120,12 @@
   margin-top: 3rem;
 }
 
+.section-card-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
 .section-card {
   background: linear-gradient(135deg, var(--secondary-bg) 0%, var(--accent-bg) 100%);
   border-radius: 12px;
@@ -127,9 +133,11 @@
   border: 1px solid var(--border-color);
   transition: all 0.3s ease;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  height: 100%;
 }
 
-.section-card:hover {
+.section-card-link:hover .section-card {
   transform: translateY(-5px);
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
   border-color: var(--highlight);
@@ -155,7 +163,7 @@
   transition: all 0.3s ease;
 }
 
-.section-link:hover {
+.section-card-link:hover .section-link {
   background-color: var(--highlight-hover);
   transform: translateY(-2px);
 }

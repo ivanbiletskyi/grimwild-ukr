@@ -4,8 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "node copy-markdown.js & vite",
-    "build": "node copy-markdown.js && tsc -b && vite build",
+    "dev": "yarn copy-md & vite",
+    "build": "yarn copy-md && tsc -b && vite build",
     "copy-md": "node copy-markdown.js",
     "lint": "eslint .",
     "preview": "vite preview"

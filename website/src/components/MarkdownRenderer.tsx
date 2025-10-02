@@ -98,6 +98,19 @@ const MarkdownRenderer: React.FC<MarkdownRendererProps> = ({ markdownPath, title
               {children}
             </pre>
           ),
+          img: ({ src, alt }) => (
+            <img 
+              src={src} 
+              alt={alt} 
+              style={{
+                maxWidth: '100%',
+                height: 'auto',
+                borderRadius: '8px',
+                margin: '1rem 0',
+                display: 'block'
+              }}
+            />
+          ),
         }}
       >
         {markdownContent}
