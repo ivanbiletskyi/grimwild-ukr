@@ -212,6 +212,37 @@ function App() {
             <Route path="/gm/cheatsheet" element={
               <MarkdownRenderer markdownPath="GM/GM-cheatsheet.md" title="Шпаргалка майстра" />
             } />
+            <Route path="/gm/monsters_DO_NOT_READ" element={<MonstersSection />} />
+            <Route path="/gm/stories_DO_NOT_READ" element={<StoriesSection />} />
+
+            {/* Monster routes */}
+            <Route path="/gm/monsters_DO_NOT_READ/basilisk" element={
+              <MarkdownRenderer markdownPath="GM/monsters_DO_NOT_READ/basilisk.md" title="Базиліск" />
+            } />
+            <Route path="/gm/monsters_DO_NOT_READ/behir" element={
+              <MarkdownRenderer markdownPath="GM/monsters_DO_NOT_READ/behir.md" title="Бегір" />
+            } />
+            <Route path="/gm/monsters_DO_NOT_READ/golem" element={
+              <MarkdownRenderer markdownPath="GM/monsters_DO_NOT_READ/golem.md" title="Голем" />
+            } />
+            <Route path="/gm/monsters_DO_NOT_READ/ogre" element={
+              <MarkdownRenderer markdownPath="GM/monsters_DO_NOT_READ/ogre.md" title="Огр" />
+            } />
+            <Route path="/gm/monsters_DO_NOT_READ/goblin-pack" element={
+              <MarkdownRenderer markdownPath="GM/monsters_DO_NOT_READ/custom/goblin-pack.md" title="Зграя гоблінів" />
+            } />
+            <Route path="/gm/monsters_DO_NOT_READ/orc-warband" element={
+              <MarkdownRenderer markdownPath="GM/monsters_DO_NOT_READ/custom/orc-warband.md" title="Загін орків" />
+            } />
+
+            {/* Story routes */}
+            <Route path="/gm/stories_DO_NOT_READ/plague-of-goblins" element={
+              <MarkdownRenderer markdownPath="GM/stories_DO_NOT_READ/a-plague-of-goblins.md" title="Чума гоблінів" />
+            } />
+            <Route path="/gm/stories_DO_NOT_READ/fall-of-bastion" element={
+              <MarkdownRenderer markdownPath="GM/stories_DO_NOT_READ/the-fall-of-bastion.md" title="Падіння бастіону" />
+            } />
+
             <Route path="/glossary" element={
               <MarkdownRenderer markdownPath="glossary.md" title="Глосарій" />
             } />
@@ -321,11 +352,65 @@ const GMSection = () => (
     <div className="section-links">
       <Link to="/gm/cheatsheet">Шпаргалка майстра</Link>
       <Link to="/GM/exploration/">Дослідження (майстер)</Link>
-      <Link to="/GM/monsters_DO_NOT_READ/">Монстри (не читати гравцям)</Link>
-      <Link to="/GM/stories_DO_NOT_READ/">Історії (не читати гравцам)</Link>
+      <Link to="/gm/monsters_DO_NOT_READ">🚫 Монстри (не читати гравцям)</Link>
+      <Link to="/gm/stories_DO_NOT_READ">📖 Історії (не читати гравцям)</Link>
     </div>
   </div>
 );
+
+const MonstersSection = () => {
+  const monsters = [
+    { name: 'Базиліск', path: 'basilisk', emoji: '🐍' },
+    { name: 'Бегір', path: 'behir', emoji: '🐉' },
+    { name: 'Голем', path: 'golem', emoji: '🗿' },
+    { name: 'Огр', path: 'ogre', emoji: '👹' },
+    { name: 'Зграя гоблінів', path: 'goblin-pack', emoji: '🗡️' },
+    { name: 'Загін орків', path: 'orc-warband', emoji: '🛡️' },
+  ];
+
+  return (
+    <div className="sub-section">
+      <h1>🚫 Монстри (не читати гравцям)</h1>
+      <p className="section-description">Описи монстрів для майстра гри</p>
+      <div className="paths-grid">
+        {monsters.map(({ name, path, emoji }) => (
+          <Link key={path} to={`/gm/monsters_DO_NOT_READ/${path}`} className="path-card-link">
+            <div className="path-card-preview">
+              <span className="path-emoji">{emoji}</span>
+              <h3>{name}</h3>
+              <span className="path-arrow">→</span>
+            </div>
+          </Link>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+const StoriesSection = () => {
+  const stories = [
+    { name: 'Чума гоблінів', path: 'plague-of-goblins', emoji: '🧌' },
+    { name: 'Падіння бастіону', path: 'fall-of-bastion', emoji: '🏰' },
+  ];
+
+  return (
+    <div className="sub-section">
+      <h1>📖 Історії (не читати гравцям)</h1>
+      <p className="section-description">Пригодницькі модулі та історії для майстра гри</p>
+      <div className="paths-grid">
+        {stories.map(({ name, path, emoji }) => (
+          <Link key={path} to={`/gm/stories_DO_NOT_READ/${path}`} className="path-card-link">
+            <div className="path-card-preview">
+              <span className="path-emoji">{emoji}</span>
+              <h3>{name}</h3>
+              <span className="path-arrow">→</span>
+            </div>
+          </Link>
+        ))}
+      </div>
+    </div>
+  );
+};
 
 const Footer = () => {
   const location = useLocation();
