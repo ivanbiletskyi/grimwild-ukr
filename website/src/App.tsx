@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route, Link, useParams, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link, useParams, useLocation, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import Navigation from './components/Navigation';
 import MarkdownRenderer from './components/MarkdownRenderer';
@@ -134,12 +134,31 @@ const DynamicFolderRenderer = () => {
   );
 };
 
+// Component to handle redirects from 404.html
+const RedirectHandler = () => {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Check if there's a stored redirect route from 404.html
+    const redirectRoute = sessionStorage.getItem('redirectRoute');
+    if (redirectRoute) {
+      // Clear the stored route
+      sessionStorage.removeItem('redirectRoute');
+      // Navigate to the intended route
+      navigate(redirectRoute, { replace: true });
+    }
+  }, [navigate]);
+
+  return null; // This component doesn't render anything
+};
+
 function App() {
   // Use /grimwild-ukr/ for production (GitHub Pages), / for local development
   const basename = import.meta.env.PROD ? '/grimwild-ukr' : '/';
-  
+
   return (
     <Router basename={basename}>
+      <RedirectHandler />
       <div className="app">
         <Navigation />
         <main className="main-content">
