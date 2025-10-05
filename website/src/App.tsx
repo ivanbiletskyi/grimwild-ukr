@@ -351,7 +351,6 @@ const GMSection = () => (
     <h1>Секція майстра</h1>
     <div className="section-links">
       <Link to="/gm/cheatsheet">Шпаргалка майстра</Link>
-      <Link to="/GM/exploration/">Дослідження (майстер)</Link>
       <Link to="/gm/monsters_DO_NOT_READ">🚫 Монстри (не читати гравцям)</Link>
       <Link to="/gm/stories_DO_NOT_READ">📖 Історії (не читати гравцям)</Link>
     </div>
