@@ -8,22 +8,28 @@ import './App.css'
 // Dynamic folder renderer component for auto-loading MD files from folders
 const DynamicFolderRenderer = () => {
   const { folderPath } = useParams<{ folderPath: string }>();
+  const location = useLocation();
   const [files, setFiles] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     const loadFolderContents = async () => {
-      if (!folderPath) return;
+      // Determine the folder key based on current location
+      // For routes like /player/character-creation/*, we need to extract the base path
+      const currentPath = location.pathname;
+      const basename = import.meta.env.PROD ? '/grimwild-ukr' : '/';
+      const pathWithoutBasename = currentPath.replace(basename, '').replace(/^\/|\/$/g, '');
+      const folderKey = folderPath ? `${pathWithoutBasename}/${folderPath}` : pathWithoutBasename;
 
       try {
         setLoading(true);
         setError(null);
 
-        // Fetch the folder index (list of files in the folder)
-        // Since we can't directly list directory contents from the browser,
-        // we need to maintain a mapping of known folders and their files
-        const folderFileMap: Record<string, string[]> = {
+      // Fetch the folder index (list of files in the folder)
+      // Since we can't directly list directory contents from the browser,
+      // we need to maintain a mapping of known folders and their files
+      const folderFileMap: Record<string, string[]> = {
           'player/character-creation': [
             'player/character_creation/1_character_creation.md',
             'player/character_creation/2_backgrounds.md',
@@ -53,25 +59,24 @@ const DynamicFolderRenderer = () => {
           ]
         };
 
-        const normalizedPath = folderPath.replace(/\/$/, ''); // Remove trailing slash
-        const folderFiles = folderFileMap[normalizedPath] || [];
+        const folderFiles = folderFileMap[folderKey] || [];
 
         if (folderFiles.length === 0) {
-          setError(`Папка "${folderPath}" не знайдена або не містить файлів.`);
+          setError(`Папка "${folderKey}" не знайдена або не містить файлів.`);
           return;
         }
 
         setFiles(folderFiles);
       } catch (err) {
         console.error('Error loading folder contents:', err);
-        setError(`Помилка завантаження папки: ${folderPath}`);
+        setError(`Помилка завантаження папки: ${folderKey}`);
       } finally {
         setLoading(false);
       }
     };
 
     loadFolderContents();
-  }, [folderPath]);
+  }, [folderPath, location.pathname]);
 
   if (loading) {
     return (
