@@ -1,8 +1,138 @@
-import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link, useParams, useLocation } from 'react-router-dom';
+import { useState, useEffect } from 'react';
 import Navigation from './components/Navigation';
 import MarkdownRenderer from './components/MarkdownRenderer';
 import Search from './components/Search';
 import './App.css'
+
+// Dynamic folder renderer component for auto-loading MD files from folders
+const DynamicFolderRenderer = () => {
+  const { folderPath } = useParams<{ folderPath: string }>();
+  const [files, setFiles] = useState<string[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const loadFolderContents = async () => {
+      if (!folderPath) return;
+
+      try {
+        setLoading(true);
+        setError(null);
+
+        // Fetch the folder index (list of files in the folder)
+        // Since we can't directly list directory contents from the browser,
+        // we need to maintain a mapping of known folders and their files
+        const folderFileMap: Record<string, string[]> = {
+          'player/character-creation': [
+            'player/character_creation/1_character_creation.md',
+            'player/character_creation/2_backgrounds.md',
+            'player/character_creation/3_heritages.md'
+          ],
+          'player/exploration': [
+            'player/exploration/1_grimwild.md',
+            'player/exploration/2_exploration-system.md',
+            'player/exploration/3_region-maps.md'
+          ],
+          'GM/exploration': [
+            'GM/exploration/1_grimwild.md',
+            'GM/exploration/2_exploration-system.md',
+            'GM/exploration/3_region-maps.md'
+          ],
+          'GM/monsters_DO_NOT_READ': [
+            'GM/monsters_DO_NOT_READ/basilisk.md',
+            'GM/monsters_DO_NOT_READ/behir.md',
+            'GM/monsters_DO_NOT_READ/golem.md',
+            'GM/monsters_DO_NOT_READ/ogre.md',
+            'GM/monsters_DO_NOT_READ/custom/goblin-pack.md',
+            'GM/monsters_DO_NOT_READ/custom/orc-warband.md'
+          ],
+          'GM/stories_DO_NOT_READ': [
+            'GM/stories_DO_NOT_READ/a-plague-of-goblins.md',
+            'GM/stories_DO_NOT_READ/the-fall-of-bastion.md'
+          ]
+        };
+
+        const normalizedPath = folderPath.replace(/\/$/, ''); // Remove trailing slash
+        const folderFiles = folderFileMap[normalizedPath] || [];
+
+        if (folderFiles.length === 0) {
+          setError(`Папка "${folderPath}" не знайдена або не містить файлів.`);
+          return;
+        }
+
+        setFiles(folderFiles);
+      } catch (err) {
+        console.error('Error loading folder contents:', err);
+        setError(`Помилка завантаження папки: ${folderPath}`);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadFolderContents();
+  }, [folderPath]);
+
+  if (loading) {
+    return (
+      <div className="sub-section">
+        <div className="loading">Завантаження файлів папки...</div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="sub-section">
+        <div className="error-message" style={{ color: 'var(--danger)', padding: '2rem', textAlign: 'center' }}>
+          {error}
+        </div>
+      </div>
+    );
+  }
+
+  // Generate titles for files based on their paths
+  const getFileTitle = (filePath: string): string => {
+    const fileName = filePath.split('/').pop()?.replace('.md', '') || '';
+    const titleMap: Record<string, string> = {
+      '1_character_creation': 'Основи створення',
+      '2_backgrounds': 'Передісторії',
+      '3_heritages': 'Спадщини',
+      '1_grimwild': 'Що таке Grimwild?',
+      '2_exploration-system': 'Система дослідження',
+      '3_region-maps': 'Мапи регіонів',
+      'basilisk': 'Базиліск',
+      'behir': 'Бехір',
+      'golem': 'Голем',
+      'ogre': 'Огр',
+      'goblin-pack': 'Зграя гоблінів',
+      'orc-warband': 'Загін орків',
+      'a-plague-of-goblins': 'Чума гоблінів',
+      'the-fall-of-bastion': 'Падіння бастіону',
+      'GM-cheatsheet': 'Шпаргалка майстра'
+    };
+
+    return titleMap[fileName] || fileName.charAt(0).toUpperCase() + fileName.slice(1);
+  };
+
+  return (
+    <div className="sub-section">
+      <h1>📁 {folderPath?.replace(/\//g, ' → ').replace(/\/$/, '')}</h1>
+      <p className="section-description">
+        Знайдено файлів: {files.length}
+      </p>
+      <div className="sub-links">
+        {files.map((filePath) => (
+          <MarkdownRenderer
+            key={filePath}
+            markdownPath={filePath}
+            title={getFileTitle(filePath)}
+          />
+        ))}
+      </div>
+    </div>
+  );
+};
 
 function App() {
   // Use /grimwild-ukr/ for production (GitHub Pages), / for local development
@@ -17,6 +147,15 @@ function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/search" element={<Search />} />
             <Route path="/player" element={<PlayerSection />} />
+
+            {/* Dynamic folder routes */}
+            <Route path="/player/character-creation/*" element={<DynamicFolderRenderer />} />
+            <Route path="/player/exploration/*" element={<DynamicFolderRenderer />} />
+            <Route path="/GM/exploration/*" element={<DynamicFolderRenderer />} />
+            <Route path="/GM/monsters_DO_NOT_READ/*" element={<DynamicFolderRenderer />} />
+            <Route path="/GM/stories_DO_NOT_READ/*" element={<DynamicFolderRenderer />} />
+
+            {/* Individual file routes */}
             <Route path="/player/core-mechanic" element={
               <MarkdownRenderer markdownPath="player/1_core_mechanic.md" title="Базова механіка" />
             } />
@@ -29,10 +168,8 @@ function App() {
             <Route path="/player/character" element={
               <MarkdownRenderer markdownPath="player/4_character.md" title="Персонаж" />
             } />
-            <Route path="/player/character-creation" element={<CharacterCreation />} />
-            <Route path="/player/exploration" element={<ExplorationSection />} />
             <Route path="/player/paths" element={<PlayerPaths />} />
-            
+
             {/* Individual character path routes */}
             <Route path="/player/paths/bard" element={
               <MarkdownRenderer markdownPath="player/paths/bard.md" title="Шлях Барда" />
@@ -70,6 +207,7 @@ function App() {
             <Route path="/player/paths/wizard" element={
               <MarkdownRenderer markdownPath="player/paths/wizard.md" title="Шлях Чарівника" />
             } />
+
             <Route path="/gm" element={<GMSection />} />
             <Route path="/gm/cheatsheet" element={
               <MarkdownRenderer markdownPath="GM/GM-cheatsheet.md" title="Шпаргалка майстра" />
@@ -77,8 +215,20 @@ function App() {
             <Route path="/glossary" element={
               <MarkdownRenderer markdownPath="glossary.md" title="Глосарій" />
             } />
+
+            {/* Catch all route for 404 */}
+            <Route path="*" element={
+              <div className="sub-section">
+                <div className="error-message" style={{ color: 'var(--danger)', padding: '3rem', textAlign: 'center' }}>
+                  <h1>404 - Сторінка не знайдена</h1>
+                  <p>Шлях, за яким ви перейшли, не існує або файл не знайдено.</p>
+                  <p>Спробуйте повернутися на <Link to="/">головну сторінку</Link>.</p>
+                </div>
+              </div>
+            } />
           </Routes>
         </main>
+        <Footer />
       </div>
     </Router>
   )
@@ -122,35 +272,13 @@ const PlayerSection = () => (
       <Link to="/player/terms">Терміни</Link>
       <Link to="/player/additions">Доповнення</Link>
       <Link to="/player/character">Персонаж</Link>
-      <Link to="/player/character-creation">Створення персонажа</Link>
-      <Link to="/player/exploration">Дослідження</Link>
+      <Link to="/player/character-creation/">Створення персонажа</Link>
+      <Link to="/player/exploration/">Дослідження</Link>
       <Link to="/player/paths">Шляхи</Link>
     </div>
   </div>
 );
 
-const CharacterCreation = () => (
-  <div className="sub-section">
-    <h1>Створення персонажа</h1>
-    <div className="sub-links">
-      <MarkdownRenderer markdownPath="player/character_creation/1_character_creation.md" title="Основи створення" />
-      <MarkdownRenderer markdownPath="player/character_creation/2_backgrounds.md" title="Передісторії" />
-      <MarkdownRenderer markdownPath="player/character_creation/3_heritages.md" title="Спадщини" />
-    </div>
-  </div>
-);
-
-const ExplorationSection = () => (
-  <div className="sub-section">
-    <h1>🌌 Дослідження</h1>
-    <p className="section-description">Система дослідження Grimwild - пригода у невідоме</p>
-    <div className="sub-links">
-      <MarkdownRenderer markdownPath="player/exploration/1_grimwild.md" title="Що таке Grimwild?" />
-      <MarkdownRenderer markdownPath="player/exploration/2_exploration-system.md" title="Система дослідження" />
-      <MarkdownRenderer markdownPath="player/exploration/3_region-maps.md" title="Мапи регіонів" />
-    </div>
-  </div>
-);
 
 const PlayerPaths = () => {
   const paths = [
@@ -192,8 +320,109 @@ const GMSection = () => (
     <h1>Секція майстра</h1>
     <div className="section-links">
       <Link to="/gm/cheatsheet">Шпаргалка майстра</Link>
+      <Link to="/GM/exploration/">Дослідження (майстер)</Link>
+      <Link to="/GM/monsters_DO_NOT_READ/">Монстри (не читати гравцям)</Link>
+      <Link to="/GM/stories_DO_NOT_READ/">Історії (не читати гравцам)</Link>
     </div>
   </div>
 );
+
+const Footer = () => {
+  const location = useLocation();
+  const isHomePage = location.pathname === '/';
+
+  return (
+    <footer className="footer">
+      {isHomePage ? (
+        // Повний футер для головної сторінки
+        <>
+          <div className="footer-content">
+            <div className="footer-section">
+              <h3>📜 Ліцензія та авторство</h3>
+              <div className="license-info">
+                <p>
+                  <strong>Оригінальні автори:</strong> J.D. Maxwell, Oddity Press
+                </p>
+                <p>
+                  <strong>Офіційний сайт гри:</strong>{' '}
+                  <a href="https://www.odditypress.com/grimwild" target="_blank" rel="noopener noreferrer">
+                    odditypress.com/grimwild
+                  </a>
+                </p>
+                <p>
+                  <strong>Оригінальна ліцензія:</strong>{' '}
+                  <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">
+                    Creative Commons Attribution 4.0 International (CC BY 4.0)
+                  </a>
+                </p>
+                <p>
+                  <strong>Ліцензія оригінального тексту:</strong>{' '}
+                  <a href="https://www.odditypress.com/licensing" target="_blank" rel="noopener noreferrer">
+                    odditypress.com/licensing
+                  </a>
+                </p>
+              </div>
+            </div>
+
+            <div className="footer-section">
+              <h3>⚠️ Важлива інформація</h3>
+              <div className="disclaimer">
+                <p>
+                  Це неофіційна фан-адаптація та переклад окремих частин tabletop RPG системи{' '}
+                  <strong>Grimwild</strong> (Free Edition v1.3).
+                </p>
+                <p>
+                  Цей проект <strong>не афілійований та не схвалений</strong> оригінальними авторами.
+                </p>
+                <p>
+                  Деякий вміст було перефразовано, реорганізовано або новостворено для кращого
+                  відповідності ігровим уподобанням, мовному потоку або локальному контексту.
+                </p>
+              </div>
+            </div>
+
+            <div className="footer-section">
+              <h3>🔗 Посилання</h3>
+              <div className="footer-links">
+                <a href="https://www.odditypress.com/grimwild" target="_blank" rel="noopener noreferrer">
+                  Оригінальна гра Grimwild
+                </a>
+                <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">
+                  Ліцензія CC BY 4.0
+                </a>
+                <a href="https://github.com/ivanbiletskyi/grimwild-ukr" target="_blank" rel="noopener noreferrer">
+                  Репозиторій проекту
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <div className="footer-bottom">
+            <p>
+              © 2025 Українська фан-адаптація Grimwild.{' '}
+              <a href="https://www.odditypress.com/licensing" target="_blank" rel="noopener noreferrer">
+                Оригінальна ліцензія CC BY 4.0
+              </a>
+              {' • '}
+              <a href="https://github.com/ivanbiletskyi" target="_blank" rel="noopener noreferrer">
+                Ivan Biletskyi
+              </a>
+            </p>
+          </div>
+        </>
+      ) : (
+        // Простий футер для інших сторінок
+        <div className="footer-simple">
+          <p>
+            © 2025 Українська фан-адаптація Grimwild •{' '}
+            <a href="https://www.odditypress.com/licensing" target="_blank" rel="noopener noreferrer">
+              Оригінальна ліцензія CC BY 4.0
+            </a>
+          </p>
+        </div>
+      )}
+    </footer>
+  );
+};
 
 export default App
