@@ -2,3 +2,5 @@
 node_modules
 __generated-html__
 website/public
+!website/public/.nojekyll
+!website/public/404.html
