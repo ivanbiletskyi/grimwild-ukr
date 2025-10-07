@@ -7,7 +7,7 @@
 
 ## About
 
-This repository contains an unofficial **Ukrainian translation, adaptation, and modification** of selected parts of the tabletop role-playing game **Grimwild** (Free Edition v1.3), originally created by J.D. Maxwell and published by **Oddity Press**.
+This repository contains an unofficial **Ukrainian translation, adaptation, and modification** of selected parts of the tabletop role-playing game **Grimwild** (Free Edition v1.4), originally created by J.D. Maxwell and published by **Oddity Press**.
   
 This includes translated rules, localized terminology, and in some cases reworded or newly written sections for clarity and style.
 
