@@ -1,5 +1,7 @@
 # Grimwild — Ukrainian Fan Translation & Adaptation
 
+[![website](https://img.shields.io/badge/website-000000?style=for-the-badge&logo=website&logoColor=white)](https://ivanbiletskyi.github.io/grimwild-ukr/)
+
 [![License: CC BY 4.0](https://img.shields.io/badge/License-CC%20BY%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by/4.0/)
 [![Original Game – Grimwild](https://img.shields.io/badge/Original%20Game-Grimwild-blueviolet)](https://www.odditypress.com/grimwild)
 [![Author: J.D. Maxwell](https://img.shields.io/badge/Author-J.D.%20Maxwell-orange)](https://www.odditypress.com)

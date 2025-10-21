@@ -30,7 +30,7 @@ const SEARCHABLE_FILES = [
   { path: 'player/paths/monk.md', title: 'Шлях Монаха', category: 'paths' },
   { path: 'player/paths/paladin.md', title: 'Шлях Паладина', category: 'paths' },
   { path: 'player/paths/ranger.md', title: 'Шлях Рейнджера', category: 'paths' },
-  { path: 'player/paths/rogue.md', title: 'Шлях Шахрая', category: 'paths' },
+  { path: 'player/paths/rogue.md', title: 'Шлях Пройдисвіта', category: 'paths' },
   { path: 'player/paths/sorcerer.md', title: 'Шлях Чародія', category: 'paths' },
   { path: 'player/paths/warlock.md', title: 'Шлях Чаклуна', category: 'paths' },
   { path: 'player/paths/wizard.md', title: 'Шлях Чарівника', category: 'paths' },

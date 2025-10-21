@@ -220,7 +220,7 @@ function App() {
               <MarkdownRenderer markdownPath="player/paths/ranger.md" title="Шлях Рейнджера" />
             } />
             <Route path="/player/paths/rogue" element={
-              <MarkdownRenderer markdownPath="player/paths/rogue.md" title="Шлях Шахрая" />
+              <MarkdownRenderer markdownPath="player/paths/rogue.md" title="Шлях Пройдисвіта" />
             } />
             <Route path="/player/paths/sorcerer" element={
               <MarkdownRenderer markdownPath="player/paths/sorcerer.md" title="Шлях Чародія" />
@@ -345,7 +345,7 @@ const PlayerPaths = () => {
     { name: 'Монах', path: 'monk', emoji: '🥋' },
     { name: 'Паладин', path: 'paladin', emoji: '🛡️' },
     { name: 'Рейнджер', path: 'ranger', emoji: '🏹' },
-    { name: 'Шахрай', path: 'rogue', emoji: '🗝️' },
+    { name: 'Пройдисвіт', path: 'rogue', emoji: '🗝️' },
     { name: 'Чародій', path: 'sorcerer', emoji: '🔮' },
     { name: 'Чаклун', path: 'warlock', emoji: '🕯️' },
     { name: 'Чарівник', path: 'wizard', emoji: '📖' },
